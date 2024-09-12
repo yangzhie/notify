@@ -17,7 +17,7 @@ function ProfileInfo({ onLogout }: ProfileInfoProps) {
           <p className="text-sm font-medium">Arnav</p>
 
           <button
-            className="text-sm t ext-slate-700 underline"
+            className="text-sm text-slate-700 underline"
             onClick={onLogout}
           >
             Logout
