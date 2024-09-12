@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
-import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
+import React, { useState } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 interface PasswordInputProps {
-    value: string,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    placeholder?: string
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
 }
 
 function PasswordInput({ value, onChange, placeholder }: PasswordInputProps) {
-    const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
-    const toggleShowPassword = () => {
-        setIsShowPassword(!isShowPassword)
-    }
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const toggleShowPassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
   return (
     <>
       <div className="flex items-center bg-transparent border-[1.5px] px-5 rounded mb-3">
@@ -39,4 +39,4 @@ function PasswordInput({ value, onChange, placeholder }: PasswordInputProps) {
   );
 }
 
-export default PasswordInput
+export default PasswordInput;
