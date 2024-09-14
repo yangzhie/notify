@@ -140,6 +140,55 @@ app.post("/add-note", authToken, async (req, res) => {
 
 })
 
+// edit note API
+app.put("/edit-note/:noteId", authToken, async (req, res) => {
+    // noteId taken from params
+    const noteId = req.params.noteId
+    // user's inputs taken as HTTP request
+    const { title, content, tags, isPinned } = req.body
+    const { user } = req.user
+    
+    // if any of below are not altered
+    if (!title && !content && !tags) {
+        return res.status(400).json({error: true, message: "No changes provided."})
+    }
+
+    try {
+        // finds the note to be edited in DB
+        const note = await Note.findOne({ _id: noteId, userId: user._id })
+        
+        // case: no note
+        if (!note) {
+            return res.status(400).json({error: true, message: "Note not found."})
+        }
+
+        // set user input to DB
+        if (title) {
+            // extract old title from note in DB and set it to new title
+            note.title = title
+        }
+
+        if (content) {
+            note.content = content
+        }
+
+        if (tags) {
+            note.tags = tags
+        }
+
+        if (isPinned) {
+            note.isPinned = isPinned
+        }
+
+        // save the note in DB
+        await note.save()
+
+        return res.json({error: false, note, message: "Successfully edited note."})
+    } catch (error) {
+        return res.status(500).json({error: true, message: "Internal error."})
+    }
+})
+
 app.listen(port, () => {
     console.log("Server online.")
 })
