@@ -8,30 +8,30 @@ interface PasswordInputProps {
 }
 
 function PasswordInput({ value, onChange, placeholder }: PasswordInputProps) {
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-  const toggleShowPassword = () => {
-    setIsShowPassword(!isShowPassword);
+  const [isShowingPassword, setIsShowingPassword] = useState<boolean>(false);
+  const togglePassword = () => {
+    setIsShowingPassword(!isShowingPassword);
   };
   return (
     <>
       <div className="flex items-center bg-transparent border-[1.5px] px-5 rounded mb-3">
         <input
           onChange={onChange}
-          type={isShowPassword ? "text" : "password"}
+          type={isShowingPassword ? "text" : "password"}
           placeholder={placeholder || "Password"}
           className="w-full text-sm bg-transparent py-3 mr-3 rounded outline-none"
         />
-        {isShowPassword ? (
+        {isShowingPassword ? (
           <FaRegEye
             size={22}
             className="text-primary cursor-pointer"
-            onClick={() => toggleShowPassword()}
+            onClick={() => togglePassword()}
           />
         ) : (
           <FaRegEyeSlash
             size={22}
             className="text-slate-400 cursor-pointer"
-            onClick={() => toggleShowPassword()}
+            onClick={() => togglePassword()}
           />
         )}
       </div>

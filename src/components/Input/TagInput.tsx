@@ -16,8 +16,12 @@ function TagInput({ tags, setTags }: TagInputProps) {
   };
 
   const addNewTag = () => {
+    // no white spaces
     if (inputValue.trim() !== "") {
+      // .trim() to check if not empty string
+      // spread operator to append to other existing tags
       setTags([...tags, inputValue.trim()]);
+      // reset tag input box value
       setInputValue("");
     }
   };

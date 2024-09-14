@@ -17,8 +17,8 @@ function AddEditNotes({ noteData, type, onClose }: AddEditNotesProps) {
 
   const [error, setError] = useState<string | null>(null);
 
-  const addNewNote = async () => { };
-  
+  const addNewNote = async () => {};
+
   const editNote = async () => {};
 
   const handleAddNote = () => {
@@ -35,9 +35,9 @@ function AddEditNotes({ noteData, type, onClose }: AddEditNotesProps) {
     setError("");
 
     if (type === "edit") {
-      editNote()
+      editNote();
     } else {
-      addNewNote()
+      addNewNote();
     }
   };
   return (
@@ -57,6 +57,7 @@ function AddEditNotes({ noteData, type, onClose }: AddEditNotesProps) {
             className="text-2xl text-slate-950 outline-none"
             placeholder="Go gym at 5"
             value={title}
+            // destructure e.target.value for cleaner code
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
@@ -68,6 +69,7 @@ function AddEditNotes({ noteData, type, onClose }: AddEditNotesProps) {
             placeholder="Content"
             rows={10}
             value={content}
+            // destructure e.target.value for cleaner code
             onChange={({ target }) => setContent(target.value)}
           />
         </div>

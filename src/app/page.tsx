@@ -23,7 +23,7 @@ export default function Home() {
     <>
       <Navbar />
 
-      <div className="containter mx-auto">
+      <div className="container mx-auto">
         <div className="grid grid-cols-3 gap-4 mt-8">
           <NoteCard
             title="Meeting on Zoom on Tuesday"

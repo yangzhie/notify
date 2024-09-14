@@ -46,7 +46,9 @@ function page() {
               type="text"
               placeholder="Name"
               className="w-full text-sm bg-transparent border-[1.5px] px-5 py-3 rounded mb-4 outline-none"
+              // extracted value is stored
               value={name}
+              // extracts the value the user enters
               onChange={(e) => setName(e.target.value)}
             />
 
