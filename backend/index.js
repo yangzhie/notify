@@ -102,6 +102,21 @@ app.post("/login", async (req, res) => {
     }
 })
 
+// get user API
+app.get("/get-user", authToken, async (req, res) => {
+    // deconstruct user from token 
+    const { user } = req.user
+    
+    // match MongoDB existing user : current user in schema
+    const isUser = await User.findOne({ _id: user._id })
+    
+    if (!isUser) {
+        return res.status(401)
+    }
+
+    return res.json({error: false, user: isUser, message: "Is current user."})
+})
+
 // add note API
 app.post("/add-note", authToken, async (req, res) => {
     // data coming in from HTTP client side
@@ -186,6 +201,68 @@ app.put("/edit-note/:noteId", authToken, async (req, res) => {
         return res.json({error: false, note, message: "Successfully edited note."})
     } catch (error) {
         return res.status(500).json({error: true, message: "Internal error."})
+    }
+})
+
+// get all notes API
+app.get("/get-all-notes", authToken, async (req, res) => {
+    const { user } = req.user
+    
+    try {
+        const notes = await Note.find({ userId: user._id }).sort({ isPinned: -1 })
+        
+        return res.json({ error: false, notes, message: "All notes retrieved." })
+    } catch (error) {
+        return res.status(500).json({ error: true, message: "Internal error." })
+    }   
+})
+
+// delete note API
+app.delete("/delete-note/:noteId", authToken, async (req, res) => {
+    // noteId taken from params
+    const noteId = req.params.noteId
+    // refers to the currently authenticated user when using JWT tokens
+    const { user } = req.user
+    
+    try {
+        // use MongoDB library findOne to find a note that matches
+        // 1. unique note's Id (mongoDB: client-side)
+        // 2. user's Id (MongoDB schema: client-side Id) ensures the note belongs to that user
+        const note = await Note.findOne({ _id: noteId, userId: user._id })
+        
+        if (!note) {
+            res.status(404).json({ error: true, message: "Note not found." })
+        }
+
+        await Note.deleteOne({ _id: noteId, userId: user._id })
+        
+        return res.json({ error: false, message: "Note deleted." })
+    } catch (error) {
+        return res.status(500).json({ error: true, message: "Internal error." })
+    }
+})
+
+// update isPinned API
+app.put("/update-pinned/:noteId", authToken, async (req, res) => {
+    const noteId = req.params.noteId
+    const { isPinned } = req.body
+    const { user } = req.user
+    
+    try {
+        const note = await Note.findOne({ _id: noteId, userId: user._id })
+        
+        if (!note) {
+            return res.status(404).json({ error: true, message: "Note not found." })
+        }
+
+        // property of MongoDB = user input
+        note.isPinned = isPinned
+
+        await note.save()
+
+        return res.json({ error: false, note, message: "Note updated." })
+    } catch (error) {
+        return res.status(500).json({ error: true, message: "Internal error" })
     }
 })
 
