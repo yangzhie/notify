@@ -7,20 +7,27 @@ import Searchbar from "../Searchbar/Searchbar";
 
 interface NavbarProps {
   userInfo?: any;
+  onSearchNote: (searchQuery: any) => void;
+  handleClearSearch: () => void;
 }
 
-function Navbar({ userInfo }: NavbarProps) {
+function Navbar({ userInfo, onSearchNote, handleClearSearch }: NavbarProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const router = useRouter();
 
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    if (searchQuery) {
+      onSearchNote(searchQuery);
+    }
+  };
 
   const onClearSearch = () => {
     setSearchQuery("");
+    handleClearSearch();
   };
 
   const onLogout = () => {
-    localStorage.clear()
+    localStorage.clear();
     router.push("login");
   };
   return (

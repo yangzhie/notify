@@ -266,6 +266,35 @@ app.put("/update-pinned/:noteId", authToken, async (req, res) => {
     }
 })
 
+// searching notes API
+app.get("/search-notes", authToken, async (req, res) => {
+    // verify user
+    const { user } = req.user
+    // query user input
+    const { query } = req.query
+    
+    if (!query) {
+        return res.status(400).json({error: true, message: "Search query is required"})
+    }
+
+    try {
+        // using RegEX for finding notes
+        const matchingNotes = await Note.find({
+            userId: user._id,
+            $or: [
+                // matches against title
+                { title: { $regex: new RegExp(query, "i") } },
+                // matches against content
+                { content: { $regex: new RegExp(query, "i") } }
+            ]
+        })
+
+        return res.json({error: false, notes: matchingNotes, message: "Matching notes retrieved."})
+    } catch (error) {
+        return res.status(500).json({error: true, message: "Internal error."})
+    }
+})
+    
 app.listen(port, () => {
     console.log("Server online.")
 })

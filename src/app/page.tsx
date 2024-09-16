@@ -27,12 +27,14 @@ export default function Home() {
 
   const [userInfo, setUserInfo] = useState<string[] | null>(null);
   const [allNotes, setAllNotes] = useState<string[]>([]);
-
   const [showToast, setShowToast] = useState<{}>({
     isShown: false,
     message: "",
     type: "add",
   });
+  const [isSearch, setIsSearch] = useState<boolean>(false)
+  const [isPinned, setIsPinned] = useState<boolean>(false)
+
   const router = useRouter();
 
   const handleEdit = (noteDetails: any) => {
@@ -93,13 +95,65 @@ export default function Home() {
     }
   };
 
+  // search API
+  const onSearchNote = async (query: string) => {
+    try {
+      const response = await axiosInstance.get("/search-notes", {
+        params: { query }
+      })
+
+      if (response.data && response.data.notes) {
+        setIsSearch(true)
+        setAllNotes(response.data.notes)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // pin API
+  const updateIsPinned = async (noteData) => {
+    const noteId = noteData._id;
+    
+    try {
+      const response = await axiosInstance.put("/update-pinned/" + noteId, {
+        isPinned: !noteData.isPinned,
+      });
+
+      if (response.data && response.data.note) {
+        handleShowToast("Note updated successfully.");
+        getAllNotes();
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // clear search of notes when x is pressed 
+  const handleClearSearch = () => {
+    setIsSearch(false)
+    getAllNotes()
+  }
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
   }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login"); // Redirect to login if token is missing
+    }
+  }, [router]);
+  
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar
+        userInfo={userInfo}
+        onSearchNote={onSearchNote}
+        handleClearSearch={handleClearSearch}
+      />
 
       <div className="container mx-auto">
         {allNotes.length > 0 ? (
@@ -114,7 +168,7 @@ export default function Home() {
                 isPinned={note.isPinned}
                 onEdit={() => handleEdit(note)}
                 onDelete={() => deleteNote(note)}
-                onPinNote={() => {}}
+                onPinNote={() => updateIsPinned(note)}
               />
             ))}
           </div>

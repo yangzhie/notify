@@ -34,8 +34,8 @@ function NoteCard({
           </div>
 
           <MdOutlinePushPin
-            className={`text-xl text-slate-300 cursor-pointer hover:text-primary 
-                ${isPinned ? "text-primary" : "text-slate-300"}`}
+            className={`text-xl text-slate-300 cursor-pointer hover:text-primary
+                ${isPinned ? "fill-red-500" : "text-slate-300"}`}
             onClick={onPinNote}
           />
         </div>
