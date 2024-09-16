@@ -5,7 +5,11 @@ import ProfileInfo from "../Cards/ProfileInfo";
 import { useRouter } from "next/navigation";
 import Searchbar from "../Searchbar/Searchbar";
 
-function Navbar() {
+interface NavbarProps {
+  userInfo?: any;
+}
+
+function Navbar({ userInfo }: NavbarProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const router = useRouter();
 
@@ -16,6 +20,7 @@ function Navbar() {
   };
 
   const onLogout = () => {
+    localStorage.clear()
     router.push("login");
   };
   return (
@@ -32,7 +37,8 @@ function Navbar() {
           onClearSearch={onClearSearch}
         />
 
-        <ProfileInfo onLogout={onLogout} />
+        {/* only render ProfileInfo if userInfo is provided */}
+        {userInfo && <ProfileInfo userInfo={userInfo} onLogout={onLogout} />}
       </div>
     </>
   );

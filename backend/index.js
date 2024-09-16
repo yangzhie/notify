@@ -63,7 +63,7 @@ app.post("/create-account", async (req, res) => {
     const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN, { expiresIn: "40000m" })
     
     // user created response 
-    return res.json({error: false, user, accessToken, messsage: "Successfully registered."})
+    return res.json({error: false, user, accessToken, message: "Successfully registered."})
 })
 
 // login API
@@ -114,7 +114,7 @@ app.get("/get-user", authToken, async (req, res) => {
         return res.status(401)
     }
 
-    return res.json({error: false, user: isUser, message: "Is current user."})
+    return res.json({ user: isUser })
 })
 
 // add note API

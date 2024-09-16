@@ -3,9 +3,14 @@
 import AddEditNotes from "@/components/AddEditNotes/AddEditNotes";
 import NoteCard from "@/components/Cards/NoteCard";
 import Navbar from "@/components/Navbar/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
 import Modal from "react-modal";
+import { useRouter } from "next/navigation";
+import axiosInstance from "@/utils/axiosInstance";
+import moment from "moment";
+import Toast from "@/components/Toast/Toast";
+import EmptyCard from "@/components/Cards/EmptyCard";
 
 interface OpenModalProps {
   isShown: boolean;
@@ -19,23 +24,103 @@ export default function Home() {
     type: "add",
     data: null,
   });
+
+  const [userInfo, setUserInfo] = useState<string[] | null>(null);
+  const [allNotes, setAllNotes] = useState<string[]>([]);
+
+  const [showToast, setShowToast] = useState<{}>({
+    isShown: false,
+    message: "",
+    type: "add",
+  });
+  const router = useRouter();
+
+  const handleEdit = (noteDetails: any) => {
+    setOpenModal({ isShown: true, data: noteDetails, type: "edit" });
+  };
+
+  const handleCloseToast = () => {
+    setShowToast({ isShown: false, message: "" });
+  };
+
+  const handleShowToast = (message: string, type: string) => {
+    setShowToast({ isShown: true, message, type });
+  };
+
+  // get user info API
+  const getUserInfo = async () => {
+    try {
+      const response = await axiosInstance.get("/get-user");
+
+      if (response.data) {
+        setUserInfo(response.data.user);
+      }
+    } catch (error: any | unknown) {
+      if (error.response.status === 401) {
+        localStorage.clear();
+        router.push("/login");
+      }
+    }
+  };
+
+  // get all notes API
+  const getAllNotes = async () => {
+    try {
+      const response = await axiosInstance.get("/get-all-notes");
+
+      if (response.data && response.data.notes) {
+        setAllNotes(response.data.notes);
+      }
+    } catch (error) {
+      console.log("Unexpected error, please try again.");
+    }
+  };
+
+  // delete note API
+  const deleteNote = async (data) => {
+    const noteId = data._id;
+    try {
+      const response = await axiosInstance.delete("/delete-note/" + noteId);
+
+      if (response.data && !response.data.error) {
+        handleShowToast("Note deleted successfully.", "delete");
+        getAllNotes();
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.message) {
+        console.log("Unexpected error, please try again.");
+      }
+    }
+  };
+
+  useEffect(() => {
+    getAllNotes();
+    getUserInfo();
+  }, []);
   return (
     <>
-      <Navbar />
+      <Navbar userInfo={userInfo} />
 
       <div className="container mx-auto">
-        <div className="grid grid-cols-3 gap-4 mt-8">
-          <NoteCard
-            title="Meeting on Zoom on Tuesday"
-            date="3rd of April 2024"
-            content="Click this Zoom link"
-            tags="#meeting"
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
-        </div>
+        {allNotes.length > 0 ? (
+          <div className="grid grid-cols-3 gap-4 mt-8">
+            {allNotes.map((note, index) => (
+              <NoteCard
+                key={note._id}
+                title={note.title}
+                date={moment(note.createdOn).format("Do MMM YYYY")}
+                content={note.content}
+                tags={note.tags}
+                isPinned={note.isPinned}
+                onEdit={() => handleEdit(note)}
+                onDelete={() => deleteNote(note)}
+                onPinNote={() => {}}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyCard />
+        )}
       </div>
 
       <button
@@ -64,8 +149,17 @@ export default function Home() {
           onClose={() =>
             setOpenModal({ isShown: false, type: "add", data: null })
           }
+          getAllNotes={getAllNotes}
+          handleShowToast={handleShowToast}
         />
       </Modal>
+
+      <Toast
+        isShown={showToast.isShown}
+        message={showToast.message}
+        type={showToast.type}
+        onClose={handleCloseToast}
+      />
     </>
   );
 }

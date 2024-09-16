@@ -5,11 +5,14 @@ import Navbar from "@/components/Navbar/Navbar";
 import Link from "next/link";
 import React, { useState } from "react";
 import { validateEmail } from "@/utils/helper";
+import axiosInstance from "@/utils/axiosInstance";
+import { useRouter } from "next/navigation";
 
 function page() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -27,6 +30,35 @@ function page() {
     setError("");
 
     // login API call
+    try {
+      // sends POST request to backend "/login"
+      const response = await axiosInstance.post("/login", {
+        // key: value
+        // the key that backend expects: value from frontend
+        email: email,
+        password: password,
+      });
+
+      // handle successful login
+      // backend returns accessToken in response.data
+      if (response.data && response.data.accessToken) {
+        // token stored in localStorage to be used in other parts of app
+        localStorage.setItem("token", response.data.accessToken);
+        // redirect to dashboard
+        router.push("/");
+      }
+    } catch (error: any | unknown) {
+      // handle login error
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else {
+        setError("Unexpected error, try again.");
+      }
+    }
   };
   return (
     <>

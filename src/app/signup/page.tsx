@@ -2,8 +2,10 @@
 
 import PasswordInput from "@/components/Input/PasswordInput";
 import Navbar from "@/components/Navbar/Navbar";
+import axiosInstance from "@/utils/axiosInstance";
 import { validateEmail } from "@/utils/helper";
 import Link from "next/link";
+import router from "next/router";
 import React, { useState } from "react";
 
 function page() {
@@ -32,6 +34,44 @@ function page() {
     setError("");
 
     // sign up API call
+    try {
+      // sends POST request to backend "/create-account"
+      const response = await axiosInstance.post("/create-account", {
+        // key: value
+        // the key that backend expects: value from frontend
+        fullName: name,
+        email: email,
+        password: password,
+      });
+
+      console.log("Response:", response);
+
+      // handle successful registration response
+      if (response.data) {
+        setError(response.data.message);
+        return;
+      }
+
+      if (response.data && response.data.accessToken) {
+        // token stored in localStorage to be used in other parts of app
+        localStorage.setItem("token", response.data.accessToken);
+        // redirect to dashboard
+        router.push("/");
+      } else {
+        setError("Failed to receive access token.");
+      }
+    } catch (error: any) {
+      // handle login error
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else {
+        setError("Internal server error, try again.");
+      }
+    }
   };
   return (
     <>

@@ -3,23 +3,72 @@
 import React, { useState } from "react";
 import TagInput from "../Input/TagInput";
 import { MdClose, MdEditNote } from "react-icons/md";
+import axiosInstance from "@/utils/axiosInstance";
 
 interface AddEditNotesProps {
   noteData: string | null;
   type: string;
   onClose: () => void;
+  getAllNotes: () => void;
+  handleShowToast: () => void;
 }
 
-function AddEditNotes({ noteData, type, onClose }: AddEditNotesProps) {
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [tags, setTags] = useState<string[]>([]);
+function AddEditNotes({
+  noteData,
+  type,
+  onClose,
+  getAllNotes,
+  handleShowToast,
+}: AddEditNotesProps) {
+  const [title, setTitle] = useState<string>(noteData?.title || "");
+  const [content, setContent] = useState<string>(noteData?.content || "");
+  const [tags, setTags] = useState<string[]>(noteData?.tags || []);
 
   const [error, setError] = useState<string | null>(null);
 
-  const addNewNote = async () => {};
+  // add note API
+  const addNewNote = async () => {
+    try {
+      const response = await axiosInstance.post("/add-note", {
+        title,
+        content,
+        tags,
+      });
 
-  const editNote = async () => {};
+      if (response.data && response.data.note) {
+        handleShowToast("Note added successfully.");
+        getAllNotes();
+        onClose();
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.message) {
+        setError(error.response.message);
+      }
+    }
+  };
+
+  // edit note API
+  const editNote = async () => {
+    const noteId = noteData._id;
+
+    try {
+      const response = await axiosInstance.put("/edit-note/" + noteId, {
+        title,
+        content,
+        tags,
+      });
+
+      if (response.data && response.data.note) {
+        handleShowToast("Note edited successfully.");
+        getAllNotes();
+        onClose();
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.message) {
+        setError(error.response.message);
+      }
+    }
+  };
 
   const handleAddNote = () => {
     if (!title) {
@@ -85,7 +134,7 @@ function AddEditNotes({ noteData, type, onClose }: AddEditNotesProps) {
           className="w-full text-sm bg-primary text-white p-3 rounded my-1 hover:bg-blue-600 font-medium mt-5"
           onClick={handleAddNote}
         >
-          ADD
+          {type === "edit" ? "UPDATE" : "ADD"}
         </button>
       </div>
     </>
