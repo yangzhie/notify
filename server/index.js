@@ -12,15 +12,15 @@ const port = 8080
 
 app.use(
     cors({
-        origin: "*",
+        origin: ["https://notify-client-six.vercel.app"],
     })
 )
+
 const jwt = require("jsonwebtoken")
 const { authToken } = require("./utils")
 
 // parses incoming JSON request bodies
 app.use(express.json())
-
 
 app.get("/", (req, res) => {
     res.json({data: "hello"})
