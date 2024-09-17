@@ -18,7 +18,7 @@ app.use(express.json())
 
 app.use(
     cors({
-        origin: "*",
+        origin: "https://notify-server-six.vercel.app/",
     })
 )
 
