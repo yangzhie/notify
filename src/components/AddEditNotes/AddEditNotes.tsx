@@ -6,11 +6,11 @@ import { MdClose, MdEditNote } from "react-icons/md";
 import axiosInstance from "@/utils/axiosInstance";
 
 interface AddEditNotesProps {
-  noteData: string | null;
+  noteData: any;
   type: string;
   onClose: () => void;
   getAllNotes: () => void;
-  handleShowToast: () => void;
+  handleShowToast: (message: string, type?: string) => void;
 }
 
 function AddEditNotes({
@@ -41,9 +41,7 @@ function AddEditNotes({
         onClose();
       }
     } catch (error) {
-      if (error.response && error.response.data && error.response.message) {
-        setError(error.response.message);
-      }
+      console.log("Unexpected error, please try again.");
     }
   };
 
@@ -64,9 +62,7 @@ function AddEditNotes({
         onClose();
       }
     } catch (error) {
-      if (error.response && error.response.data && error.response.message) {
-        setError(error.response.message);
-      }
+      console.log("Unexpected error, please try again.");
     }
   };
 

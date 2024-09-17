@@ -24,6 +24,15 @@ interface ToastState {
   type?: string | "add" | "edit" | "";
 }
 
+interface Note {
+  _id: string;
+  title: string;
+  createdOn: string;
+  content: string;
+  tags: string[];
+  isPinned: boolean;
+}
+
 export default function Home() {
   const [openModal, setOpenModal] = useState<OpenModalProps>({
     isShown: false,
@@ -32,7 +41,7 @@ export default function Home() {
   });
 
   const [userInfo, setUserInfo] = useState<string[] | null>(null);
-  const [allNotes, setAllNotes] = useState([]);
+  const [allNotes, setAllNotes] = useState<Note[]>([]);
   const [showToast, setShowToast] = useState<ToastState>({
     isShown: false,
     message: "",
@@ -93,10 +102,8 @@ export default function Home() {
         handleShowToast("Note deleted successfully.", "delete");
         getAllNotes();
       }
-    } catch (error: unknown) {
-      if (error.response && error.response.data && error.response.message) {
-        console.log("Unexpected error, please try again.");
-      }
+    } catch (error) {
+      console.log("Unexpected error, please try again.")
     }
   };
 
@@ -219,7 +226,7 @@ export default function Home() {
       <Toast
         isShown={showToast.isShown}
         message={showToast.message}
-        type={showToast.type}
+        type={showToast.type ?? ""}
         onClose={handleCloseToast}
       />
     </>
