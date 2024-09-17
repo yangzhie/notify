@@ -1,9 +1,9 @@
 "use client";
 
-import PasswordInput from "@/components/Input/PasswordInput";
-import Navbar from "@/components/Navbar/Navbar";
-import axiosInstance from "@/utils/axiosInstance";
-import { validateEmail } from "@/utils/helper";
+import PasswordInput from "../../components/Input/PasswordInput";
+import Navbar from "../../components/Navbar/Navbar";
+import axiosInstance from "../../utils/axiosInstance";
+import { validateEmail } from "../../utils/helper";
 import Link from "next/link";
 import router from "next/router";
 import React, { useState } from "react";

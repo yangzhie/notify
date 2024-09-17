@@ -1,16 +1,16 @@
 "use client";
 
-import AddEditNotes from "@/components/AddEditNotes/AddEditNotes";
-import NoteCard from "@/components/Cards/NoteCard";
-import Navbar from "@/components/Navbar/Navbar";
+import AddEditNotes from "../components/AddEditNotes/AddEditNotes";
+import NoteCard from "../components/Cards/NoteCard";
+import Navbar from "../components/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
 import Modal from "react-modal";
 import { useRouter } from "next/navigation";
-import axiosInstance from "@/utils/axiosInstance";
+import axiosInstance from "../utils/axiosInstance";
 import moment from "moment";
-import Toast from "@/components/Toast/Toast";
-import EmptyCard from "@/components/Cards/EmptyCard";
+import Toast from "../components/Toast/Toast";
+import EmptyCard from "../components/Cards/EmptyCard";
 
 interface OpenModalProps {
   isShown: boolean;
@@ -47,7 +47,7 @@ export default function Home() {
     message: "",
     type: "add",
   });
-  const [isSearch, setIsSearch] = useState<boolean>(false)
+  const [isSearch, setIsSearch] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -103,7 +103,7 @@ export default function Home() {
         getAllNotes();
       }
     } catch (error) {
-      console.log("Unexpected error, please try again.")
+      console.log("Unexpected error, please try again.");
     }
   };
 
@@ -111,17 +111,17 @@ export default function Home() {
   const onSearchNote = async (query: string) => {
     try {
       const response = await axiosInstance.get("/search-notes", {
-        params: { query }
-      })
+        params: { query },
+      });
 
       if (response.data && response.data.notes) {
-        setIsSearch(true)
-        setAllNotes(response.data.notes)
+        setIsSearch(true);
+        setAllNotes(response.data.notes);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   // pin API
   const updateIsPinned = async (noteData: {
@@ -144,11 +144,11 @@ export default function Home() {
     }
   };
 
-  // clear search of notes when x is pressed 
+  // clear search of notes when x is pressed
   const handleClearSearch = () => {
-    setIsSearch(false)
-    getAllNotes()
-  }
+    setIsSearch(false);
+    getAllNotes();
+  };
 
   useEffect(() => {
     getAllNotes();
@@ -161,7 +161,7 @@ export default function Home() {
       router.push("/login"); // Redirect to login if token is missing
     }
   }, [router]);
-  
+
   return (
     <>
       <Navbar

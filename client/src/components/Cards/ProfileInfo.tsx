@@ -1,5 +1,5 @@
 import React from "react";
-import { getInitials } from "@/utils/helper";
+import { getInitials } from "../../utils/helper";
 
 interface ProfileInfoProps {
   onLogout: () => void;

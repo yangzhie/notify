@@ -18,9 +18,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["client/src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/hello.js", "backend/index.js"],
+  "include": ["client/next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "client/src/app/api/hello.js", "server/index.js"],
   "exclude": ["node_modules"]
 }

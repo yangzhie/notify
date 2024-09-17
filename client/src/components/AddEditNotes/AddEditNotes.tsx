@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import TagInput from "../Input/TagInput";
 import { MdClose, MdEditNote } from "react-icons/md";
-import axiosInstance from "@/utils/axiosInstance";
+import axiosInstance from "../../utils/axiosInstance";
 
 interface AddEditNotesProps {
   noteData: any;
