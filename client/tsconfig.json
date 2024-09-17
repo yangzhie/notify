@@ -11,6 +11,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "baseUrl": ".",
     "incremental": true,
     "plugins": [
       {
@@ -18,7 +19,7 @@
       }
     ],
     "paths": {
-      "@/*": ["client/src/*"]
+      "@/*": ["/src/*"]
     }
   },
   "include": ["client/next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "client/src/app/api/hello.js", "server/index.js"],
