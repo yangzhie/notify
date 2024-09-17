@@ -12,7 +12,7 @@ const port = 8080
 
 app.use(
     cors({
-        origin: ["https://notify-client-six.vercel.app"],
+        origin: ["https://notify-client-sigma.vercel.app"],
     })
 )
 
