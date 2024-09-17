@@ -18,6 +18,12 @@ interface OpenModalProps {
   data: string | null;
 }
 
+interface ToastState {
+  isShown: boolean;
+  message: string;
+  type?: string | "add" | "edit" | "";
+}
+
 export default function Home() {
   const [openModal, setOpenModal] = useState<OpenModalProps>({
     isShown: false,
@@ -26,14 +32,13 @@ export default function Home() {
   });
 
   const [userInfo, setUserInfo] = useState<string[] | null>(null);
-  const [allNotes, setAllNotes] = useState<string[]>([]);
-  const [showToast, setShowToast] = useState<{}>({
+  const [allNotes, setAllNotes] = useState([]);
+  const [showToast, setShowToast] = useState<ToastState>({
     isShown: false,
     message: "",
     type: "add",
   });
   const [isSearch, setIsSearch] = useState<boolean>(false)
-  const [isPinned, setIsPinned] = useState<boolean>(false)
 
   const router = useRouter();
 
@@ -45,7 +50,7 @@ export default function Home() {
     setShowToast({ isShown: false, message: "" });
   };
 
-  const handleShowToast = (message: string, type: string) => {
+  const handleShowToast = (message: string, type?: string) => {
     setShowToast({ isShown: true, message, type });
   };
 
@@ -79,7 +84,7 @@ export default function Home() {
   };
 
   // delete note API
-  const deleteNote = async (data) => {
+  const deleteNote = async (data: { _id: string; [key: string]: any }) => {
     const noteId = data._id;
     try {
       const response = await axiosInstance.delete("/delete-note/" + noteId);
@@ -88,7 +93,7 @@ export default function Home() {
         handleShowToast("Note deleted successfully.", "delete");
         getAllNotes();
       }
-    } catch (error) {
+    } catch (error: unknown) {
       if (error.response && error.response.data && error.response.message) {
         console.log("Unexpected error, please try again.");
       }
@@ -112,9 +117,12 @@ export default function Home() {
   }
 
   // pin API
-  const updateIsPinned = async (noteData) => {
+  const updateIsPinned = async (noteData: {
+    _id: string;
+    [key: string]: any;
+  }) => {
     const noteId = noteData._id;
-    
+    console.log(noteData);
     try {
       const response = await axiosInstance.put("/update-pinned/" + noteId, {
         isPinned: !noteData.isPinned,
@@ -125,9 +133,9 @@ export default function Home() {
         getAllNotes();
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   // clear search of notes when x is pressed 
   const handleClearSearch = () => {

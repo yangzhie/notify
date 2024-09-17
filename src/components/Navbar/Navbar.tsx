@@ -7,8 +7,8 @@ import Searchbar from "../Searchbar/Searchbar";
 
 interface NavbarProps {
   userInfo?: any;
-  onSearchNote: (searchQuery: any) => void;
-  handleClearSearch: () => void;
+  onSearchNote?: (searchQuery: string) => void;
+  handleClearSearch?: () => void;
 }
 
 function Navbar({ userInfo, onSearchNote, handleClearSearch }: NavbarProps) {
@@ -16,14 +16,16 @@ function Navbar({ userInfo, onSearchNote, handleClearSearch }: NavbarProps) {
   const router = useRouter();
 
   const handleSearch = () => {
-    if (searchQuery) {
+    if (searchQuery && onSearchNote) {
       onSearchNote(searchQuery);
     }
   };
 
   const onClearSearch = () => {
-    setSearchQuery("");
-    handleClearSearch();
+    if (handleClearSearch) {
+      setSearchQuery("");
+      handleClearSearch();
+    }
   };
 
   const onLogout = () => {
