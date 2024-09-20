@@ -203,7 +203,6 @@ export default function Home() {
 
       <Modal
         isOpen={openModal.isShown}
-        onRequestClose={() => {}}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.2)",

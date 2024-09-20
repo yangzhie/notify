@@ -44,7 +44,9 @@ app.post("/create-account", async (req, res) => {
         return res.status(400).json({error: true, message: "Password is required"})
     }
 
-    // search database for user profile -> gets email
+    // search the database for an existing user with the provided email address
+    // can also be email instead of email: email
+    //                                   DB  : input
     const isUser = await User.findOne({ email: email })
     
     // if user registers under same email, throw error
