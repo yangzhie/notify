@@ -14,18 +14,19 @@ function PasswordInput({ value, onChange, placeholder }: PasswordInputProps) {
   };
   return (
     <>
-      <div className="flex items-center bg-transparent border-[1.5px] px-5 rounded mb-3">
+      <div className="flex items-center bg-[#251410] px-5 rounded mb-3">
         <input
           onChange={onChange}
           type={isShowingPassword ? "text" : "password"}
-          placeholder={placeholder || "Password"}
-          className="w-full text-sm bg-transparent py-3 mr-3 rounded outline-none"
+          placeholder={placeholder || "Your Password"}
+          className="w-full text-white text-sm bg-transparent py-3 mr-3 rounded outline-none"
         />
         {isShowingPassword ? (
           <FaRegEye
             size={22}
-            className="text-primary cursor-pointer"
+            className="cursor-pointer"
             onClick={() => togglePassword()}
+            color="purple"
           />
         ) : (
           <FaRegEyeSlash

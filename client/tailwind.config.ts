@@ -14,6 +14,9 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      backgroundImage: {
+        'background': "url('https://images.pexels.com/photos/14252090/pexels-photo-14252090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
+      },
     },
   },
   plugins: [],
