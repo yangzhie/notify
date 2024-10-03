@@ -4,14 +4,23 @@ import React, { useState } from "react";
 import ProfileInfo from "../Cards/ProfileInfo";
 import { useRouter } from "next/navigation";
 import Searchbar from "../Searchbar/Searchbar";
+import Link from "next/link";
 
 interface NavbarProps {
   userInfo?: any;
   onSearchNote?: (searchQuery: string) => void;
   handleClearSearch?: () => void;
+  sticky: boolean;
+  background: boolean;
 }
 
-function Navbar({ userInfo, onSearchNote, handleClearSearch }: NavbarProps) {
+function Navbar({
+  userInfo,
+  onSearchNote,
+  handleClearSearch,
+  sticky,
+  background,
+}: NavbarProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const router = useRouter();
 
@@ -34,8 +43,14 @@ function Navbar({ userInfo, onSearchNote, handleClearSearch }: NavbarProps) {
   };
   return (
     <>
-      <div className="flex absolute items-center justify-between px-6 py-2 drop-shadow">
-        <h2 className="text-xl font-medium text-black py-2">Notify</h2>
+      <div
+        className={`flex ${
+          sticky ? "sticky" : "absolute"
+        } items-center justify-between px-6 py-2 ${
+          background ? "bg-gray-800" : ""
+        } drop-shadow-xl`}
+      >
+        <Link href="/login" className="text-xl font-medium text-white py-2">Notify</Link>
 
         {userInfo && (
           <Searchbar

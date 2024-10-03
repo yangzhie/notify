@@ -15,12 +15,9 @@ function ProfileInfo({ onLogout, userInfo }: ProfileInfoProps) {
         </div>
 
         <div>
-          <p className="text-sm font-medium">{userInfo.fullName}</p>
+          <p className="text-sm font-medium text-white">{userInfo.fullName}</p>
 
-          <button
-            className="text-sm text-slate-700 underline"
-            onClick={onLogout}
-          >
+          <button className="text-sm text-slate-300" onClick={onLogout}>
             Logout
           </button>
         </div>

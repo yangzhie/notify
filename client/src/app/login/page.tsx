@@ -65,6 +65,8 @@ function page() {
   };
   return (
     <>
+      <Navbar sticky={false} background={false} />
+
       <div className="flex h-screen justify-between bg-[#160906]">
         <div className="flex items-center w-1/2">
           <img
@@ -97,7 +99,7 @@ function page() {
                   <input
                     type="text"
                     placeholder="Your Email"
-                    className="w-full text-white text-sm bg-[#251410] px-5 py-3 rounded mb-4 outline-none"
+                    className="w-full text-white text-sm bg-[#251410] px-5 py-3 rounded mb-4 outline-none hover:bg-[#f8e5df] transition-all ease-in-out duration-300"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -110,12 +112,6 @@ function page() {
 
                 {error && <p className="text-red-500 text-xs pb-1">{error}</p>}
 
-                {/* <button
-                  type="submit"
-                  className="w-full text-sm bg-[#570c7c] text-white p-2 rounded my-1 hover:bg-[#4a117c] transition-all duration-300 ease-in-out"
-                >
-                  Login
-                </button> */}
                 <div className="flex justify-end">
                   <Button>Login</Button>
                 </div>

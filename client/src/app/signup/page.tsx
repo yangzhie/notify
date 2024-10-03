@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "src/components/Buttons/Button";
 import PasswordInput from "../../components/Input/PasswordInput";
 import Navbar from "../../components/Navbar/Navbar";
 import axiosInstance from "../../utils/axiosInstance";
@@ -75,55 +76,69 @@ function page() {
   };
   return (
     <>
-      <Navbar />
+      <Navbar sticky={false} background={false} />
 
-      <div className="flex items-center justify-center mt-28">
-        <div className="w-96 border rounded bg-white px-7 py-10">
-          <form onSubmit={handleSignUp}>
-            <h4 className="text-2xl mb-7">Sign Up</h4>
+      <div className="flex h-screen justify-between bg-[#83968b]">
+        <div className="flex ml-[170px]">
+          <div className="bg flex items-center justify-center">
+            <div className="w-[400px] px-7 py-10">
+              <form onSubmit={handleSignUp}>
+                <div>
+                  <h4 className="text-5xl mb-6 text-white">Sign Up</h4>
 
-            <input
-              type="text"
-              placeholder="Name"
-              className="w-full text-sm bg-transparent border-[1.5px] px-5 py-3 rounded mb-4 outline-none"
-              // extracted value is stored
-              value={name}
-              // extracts the value the user enters
-              onChange={(e) => setName(e.target.value)}
-            />
+                  <p className="text-sm mr-4 text-gray-300">
+                    Have an account already?{" "}
+                    <Link
+                      href="/login"
+                      className="font-medium text-[#7650b3] underline"
+                    >
+                      Login
+                    </Link>
+                  </p>
+                </div>
 
-            <input
-              type="text"
-              placeholder="Email"
-              className="w-full text-sm bg-transparent border-[1.5px] px-5 py-3 rounded mb-4 outline-none"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+                <div className="mt-12">
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    className="w-full text-white text-sm bg-[#251410] px-5 py-3 rounded mb-4 outline-none hover:bg-[#f8e5df] transition-all ease-in-out duration-300"
+                    // extracted value is stored
+                    value={name}
+                    // extracts the value the user enters
+                    onChange={(e) => setName(e.target.value)}
+                  />
 
-            <PasswordInput
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+                  <input
+                    type="text"
+                    placeholder="Your Email"
+                    className="w-full text-white text-sm bg-[#251410] px-5 py-3 rounded mb-4 outline-none hover:bg-[#f8e5df] transition-all ease-in-out duration-300"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
 
-            {error && <p className="text-red-500 text-xs pb-1">{error}</p>}
+                  <PasswordInput
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
 
-            <button
-              type="submit"
-              className="w-full text-sm bg-primary text-white p-2 rounded my-1 hover:bg-blue-600"
-            >
-              Sign up
-            </button>
+                {error && <p className="text-red-500 text-xs pb-1">{error}</p>}
 
-            <p className="text-sm text-center mr-4">
-              Have an account?{" "}
-              <Link
-                href="/login"
-                className="font-medium text-primary underline"
-              >
-                Login
-              </Link>
-            </p>
-          </form>
+                <div className="flex justify-end">
+                  <Button>Register</Button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center w-1/2">
+          <img
+            className="w-full h-full object-cover"
+            width={380}
+            src="https://images.unsplash.com/photo-1705056132819-e26539cd0ca8?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="dune"
+          />
         </div>
       </div>
     </>

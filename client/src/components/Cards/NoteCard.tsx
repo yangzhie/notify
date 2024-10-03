@@ -26,7 +26,7 @@ function NoteCard({
 }: NoteCardProps) {
   return (
     <>
-      <div className="border rounded p-4 bg-white hover:shadow-xl transition-all ease-in-out">
+      <div className="border rounded p-4 bg-gray-200 hover:shadow-xl transition-all ease-in-out shadow-sm">
         <div className="flex items-center justify-between">
           <div>
             <h6 className="text-sm font-medium">{title}</h6>
@@ -34,24 +34,26 @@ function NoteCard({
           </div>
 
           <MdOutlinePushPin
-            className={`text-xl text-slate-300 cursor-pointer hover:text-primary
-                ${isPinned ? "fill-red-500" : "text-slate-300"}`}
+            className={`text-xl text-black cursor-pointer hover:text-primary
+                ${isPinned ? "fill-red-500" : "text-black"}`}
             onClick={onPinNote}
           />
         </div>
         <p className="text-xs text-slate-600 mt-2">{content?.slice(0, 60)}</p>
 
         <div className="flex items-center justify-between mt-2">
-          <div className="text-xs text-slate-500">{tags.map((tag, index) => `#${tag} `)}</div>
+          <div className="text-xs text-slate-500">
+            {tags.map((tag, index) => `#${tag} `)}
+          </div>
 
           <div className="flex items-center gap-2">
             <MdCreate
-              className="text-xl text-slate-300 cursor-pointer hover:text-green-600"
+              className="text-xl text-black cursor-pointer hover:text-green-600"
               onClick={onEdit}
             />
 
             <MdDelete
-              className="text-xl text-slate-300 cursor-pointer hover:text-red-500"
+              className="text-xl text-black cursor-pointer hover:text-red-500"
               onClick={onDelete}
             />
           </div>

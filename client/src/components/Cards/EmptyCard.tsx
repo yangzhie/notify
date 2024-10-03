@@ -3,13 +3,20 @@ import React from "react";
 function EmptyCard() {
   return (
     <>
-      <div className="border rounded p-4 bg-white hover:shadow-xl transition-all ease-in-out">
-        <div className="flex items-center justify-between">
-          <div>
-            <h6 className="text-sm font-medium">No notes</h6>
+      <div className="flex justify-center mt-10">
+        <div className="w-1/2 border-b-2 p-4 hover:shadow-lg transition-all ease-in-out">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-medium text-white">
+                No notes found
+              </h2>
+            </div>
           </div>
+          <p className="text-sm text-black mt-2">
+            There are no notes to display here. Please add notes by clicking the
+            button in the bottom right.
+          </p>
         </div>
-        <p className="text-xs text-slate-600 mt-2">There are no notes to display here. Please add notes by clicking the button in the bottom right.</p>
       </div>
     </>
   );

@@ -14,7 +14,7 @@ function PasswordInput({ value, onChange, placeholder }: PasswordInputProps) {
   };
   return (
     <>
-      <div className="flex items-center bg-[#251410] px-5 rounded mb-3">
+      <div className="flex items-center bg-[#251410] px-5 rounded mb-3 hover:bg-[#f8e5df] transition-all ease-in-out duration-300">
         <input
           onChange={onChange}
           type={isShowingPassword ? "text" : "password"}

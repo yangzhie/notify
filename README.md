@@ -51,5 +51,5 @@ A full-stack Notes application built with the **MERN stack** (MongoDB, Express, 
 ![search-notes](/src/public/search-notes.PNG)
 
 ## Future Improvements
-- fix up TypeScript components
-- implement dark mode
+- ~~fix up TypeScript components~~
+- implement dark/light mode
